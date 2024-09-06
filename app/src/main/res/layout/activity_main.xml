@@ -7,10 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@mipmap/sese_shop_main_background_foreground"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/main1"
+        android:id="@+id/main_layout_1"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -24,17 +25,34 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="Snessks Enchanted Supply Imporium"
-            android:textSize="40sp" />
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:fontFamily="sans-serif-black"
+            />
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/main2"
+        android:id="@+id/main_layout_2"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/main1"
         tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="40dp"
+            android:gravity="center_vertical"
+            android:text="Buy Allss Your Arcanes Wares Here Adventurers."
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:fontFamily="cursive"
+            />
 
         <ImageView
             android:id="@+id/basket_btn"
@@ -47,18 +65,21 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/main_layout_3"
         android:layout_width="match_parent"
         android:layout_weight="12"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/main2"
         tools:layout_editor_absoluteX="16dp">
 
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/item_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Snessks's Magic Items For Sale Goes Here"
-            android:textSize="50dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="40dp"
+            android:scrollbars="vertical"
+            android:background="#80FFFFFF"
             />
 
     </LinearLayout>
