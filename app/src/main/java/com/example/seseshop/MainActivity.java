@@ -1,6 +1,8 @@
 package com.example.seseshop;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,5 +40,12 @@ public class MainActivity extends AppCompatActivity
         MagicalItemAdapter listAdapter = new MagicalItemAdapter(this, magicalItemList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listAdapter);
+
+        ImageView viewBasketBtn = findViewById(R.id.basket_btn);
+        viewBasketBtn.setOnClickListener(view ->
+        {
+            Intent intent = new Intent(MainActivity.this, BasketActivity.class);
+            startActivity(intent);
+        });
     }
 }
