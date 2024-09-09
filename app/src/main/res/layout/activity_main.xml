@@ -51,42 +51,13 @@
             android:layout_marginStart="40dp"
             android:fontFamily="cursive"
             android:gravity="center_vertical"
-            android:text="Buyss Your Arcaness"
+            android:text="Buyss Your Arcaness Waress Here"
             android:textColor="#FFF"
             android:textSize="35sp"
             android:textStyle="bold"
             />
-
-        <TextView
-            android:id="@+id/ml2_text_view2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/ml2_text_view1"
-            android:fontFamily="cursive"
-            android:gravity="center_vertical"
-            android:text=" Waress "
-            android:textColor="#FFF"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/ml2_text_view3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/ml2_text_view2"
-            android:fontFamily="cursive"
-            android:gravity="center_vertical"
-            android:text="Here"
-            android:textColor="#FFF"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            />
-
         <ImageView
-            android:id="@+id/basket_btn"
+            android:id="@+id/basket_imgbtn"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"

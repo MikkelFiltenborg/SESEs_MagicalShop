@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/sese_shop_info_background_foreground"
-    >
-<!--    tools:context=".InfoActivity"-->
+    tools:context=".InfoActivity">
 
 <!--    Header-->
     <LinearLayout
@@ -58,6 +57,7 @@
             />
     </LinearLayout>
 
+<!--    Buy button-->
     <LinearLayout
         android:id="@+id/info_layout_4"
         android:layout_width="match_parent"

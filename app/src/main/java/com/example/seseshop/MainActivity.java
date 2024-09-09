@@ -12,6 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seseshop.adapters.MagicalItemWaresAdapter;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,17 +33,18 @@ public class MainActivity extends AppCompatActivity
         });
 
         List<String> magicalItemList = Arrays.asList(
-                "MagicalItem 1",
-                "MagicalItem 2",
-                "MagicalItem 3"
+                "MagicalItemName 1",
+                "MagicalItemName 2",
+                "MagicalItemName 3"
         );
 
         RecyclerView recyclerView = findViewById(R.id.item_list_view);
-        MagicalItemAdapter listAdapter = new MagicalItemAdapter(this, magicalItemList);
+        MagicalItemWaresAdapter listAdapter =
+                new MagicalItemWaresAdapter(this, magicalItemList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listAdapter);
 
-        ImageView viewBasketBtn = findViewById(R.id.basket_btn);
+        ImageView viewBasketBtn = findViewById(R.id.basket_imgbtn);
         viewBasketBtn.setOnClickListener(view ->
         {
             Intent intent = new Intent(MainActivity.this, BasketActivity.class);
