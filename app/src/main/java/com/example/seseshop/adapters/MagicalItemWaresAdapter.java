@@ -44,12 +44,13 @@ public class MagicalItemWaresAdapter
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos)
     {
         MagicItem magicalItem = magicalItemList.get(pos);
+        holder.itemNameView.setText(magicalItem.getItemName());
         holder.itemAmountView.setText(magicalItem.getItemAmount() + " pcs.");
         holder.itemCostView.setText(String.format("%.2f", magicalItem.getItemCost()) + " Gp.");
 
         if(magicalItem.getItemImg() != null && !magicalItem.getItemImg().isEmpty())
         {
-            //TODO NOT. DEPRICATED! find alternative to getIdentifier()
+            //TODO. NOT DEPRICATED! Eventually find alternative to getIdentifier()
             int imgResId = context.getResources().getIdentifier(
                     magicalItem.getItemImg(), "drawable", context.getPackageName());
 
