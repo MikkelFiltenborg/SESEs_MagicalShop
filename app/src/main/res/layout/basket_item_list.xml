@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/basket_list"
+    android:padding="10dp">
+
+    <!--    Item Image-->
+    <!--    TODO change to ImageView for purpose of displaying image-->
+    <ImageView
+        android:id="@+id/basket_magical_item_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        />
+    <!--    pull img file from API/DB android:src="@drawable/default_image"-->
+
+<!--    Clickable Name text (shows description)-->
+    <TextView
+        android:id="@+id/basket_magical_item_name_textbtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:text="Magical Item Name"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:layout_margin="5dp"
+        />
+
+<!--    Amount text-->
+    <TextView
+        android:id="@+id/basket_magical_item_amount_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="Amount"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:layout_margin="5dp"
+        />
+
+<!--    Price text-->
+    <TextView
+        android:id="@+id/basket_magical_item_price_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:text="Price"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:layout_margin="5dp"
+        />
+
+<!--    Remove button-->
+    <Button
+        android:id="@+id/basket_magical_item_list_remove_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="5dp"
+        android:backgroundTint="#2DD"
+        android:textColor="@color/black"
+        android:text="Remove"
+        android:textSize="20sp"
+        />
+</LinearLayout>
