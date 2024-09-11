@@ -18,13 +18,12 @@ import com.example.seseshop.models.MagicItem;
 
 import java.util.List;
 
-public class MagicalItemBasketAdapter
-        extends RecyclerView.Adapter<MagicalItemBasketAdapter.ViewHolder>
+public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder>
 {
     private List<MagicItem> basketItemList;
     private Context context;
 
-    public MagicalItemBasketAdapter(Context context, List<MagicItem> basketItemList)
+    public BasketAdapter(Context context, List<MagicItem> basketItemList)
     {
         this.context = context;
         this.basketItemList = basketItemList;
@@ -44,8 +43,7 @@ public class MagicalItemBasketAdapter
     {
         MagicItem basketItem = basketItemList.get(pos);
         holder.basketItemTextView.setText(
-                basketItem.getItemName() + " - " +
-                        basketItem.getItemAmount() + " pcs.");
+                basketItem.getItemName() + " - " + basketItem.getItemAmount() + " pcs.");
 
         holder.basketItemTextView.setOnClickListener(view ->
         {
@@ -55,11 +53,12 @@ public class MagicalItemBasketAdapter
 
         holder.removeBtn.setOnClickListener(view ->
         {
+            basketItemList.remove(pos);
+            notifyItemRemoved(pos);
+            notifyItemRangeChanged(pos, basketItemList.size());
             Toast.makeText(context,
                     basketItem + "Removed From Basket",
                     Toast.LENGTH_SHORT).show();
-            basketItemList.remove(pos);
-            notifyItemRemoved(pos);
         });
     }
 

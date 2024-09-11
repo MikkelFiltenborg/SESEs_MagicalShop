@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +19,12 @@ import com.example.seseshop.models.MagicItem;
 
 import java.util.List;
 
-public class MagicalItemWaresAdapter
-        extends RecyclerView.Adapter<MagicalItemWaresAdapter.ViewHolder>
+public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
 {
     private List<MagicItem> magicalItemList;
     private Context context;
 
-    public MagicalItemWaresAdapter(Context context, List<MagicItem> magicalItemList)
+    public WaresAdapter(Context context, List<MagicItem> magicalItemList)
     {
         this.context = context;
         this.magicalItemList = magicalItemList;

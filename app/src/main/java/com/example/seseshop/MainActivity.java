@@ -21,7 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.seseshop.adapters.MagicalItemWaresAdapter;
+import com.example.seseshop.adapters.WaresAdapter;
 import com.example.seseshop.models.MagicItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -164,8 +164,7 @@ public class MainActivity extends AppCompatActivity
     void setAdapterToItemList()
     {
         RecyclerView recyclerView = findViewById(R.id.item_list_view);
-        MagicalItemWaresAdapter listAdapter =
-                new MagicalItemWaresAdapter(this, magicalItemList);
+        WaresAdapter listAdapter = new WaresAdapter(this, magicalItemList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listAdapter);
     }
