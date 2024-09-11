@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seseshop.adapters.MagicalItemBasketAdapter;
+import com.example.seseshop.models.MagicItem;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,11 +34,15 @@ public class BasketActivity extends AppCompatActivity
             return insets;
         });
 
-        List<String> basketItemList = Arrays.asList(
-                "MagicalItemName 1",
-                "MagicalItemName 2",
-                "MagicalItemName 3"
-        );
+        String basketItemJson = getIntent().getStringExtra("BASKET_ITEMS");
+        List<MagicItem> basketItemList = new Gson().fromJson(basketItemJson,
+                new TypeToken<List<MagicItem>>() {}.getType());
+
+//        List<String> basketItemList = Arrays.asList(
+//                "MagicalItemName 1",
+//                "MagicalItemName 2",
+//                "MagicalItemName 3"
+//        );
 
         RecyclerView recyclerView = findViewById(R.id.basket_item_view);
         MagicalItemBasketAdapter magicalItemBasketAdapter =

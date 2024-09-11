@@ -14,16 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seseshop.InfoActivity;
 import com.example.seseshop.R;
+import com.example.seseshop.models.MagicItem;
 
 import java.util.List;
 
 public class MagicalItemBasketAdapter
         extends RecyclerView.Adapter<MagicalItemBasketAdapter.ViewHolder>
 {
-    private List<String> basketItemList;
+    private List<MagicItem> basketItemList;
     private Context context;
 
-    public MagicalItemBasketAdapter(Context context, List<String> basketItemList)
+    public MagicalItemBasketAdapter(Context context, List<MagicItem> basketItemList)
     {
         this.context = context;
         this.basketItemList = basketItemList;
@@ -41,8 +42,10 @@ public class MagicalItemBasketAdapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos)
     {
-        String basketItem = basketItemList.get(pos);
-        holder.basketItemTextView.setText(basketItem);
+        MagicItem basketItem = basketItemList.get(pos);
+        holder.basketItemTextView.setText(
+                basketItem.getItemName() + " - " +
+                        basketItem.getItemAmount() + " pcs.");
 
         holder.basketItemTextView.setOnClickListener(view ->
         {
@@ -55,9 +58,12 @@ public class MagicalItemBasketAdapter
             Toast.makeText(context,
                     basketItem + "Removed From Basket",
                     Toast.LENGTH_SHORT).show();
+            basketItemList.remove(pos);
+            notifyItemRemoved(pos);
         });
     }
 
+    @Override
     public int getItemCount()
     {
         return basketItemList.size();

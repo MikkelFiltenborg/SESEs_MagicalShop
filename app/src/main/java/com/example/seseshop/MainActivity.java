@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity
 {
     private RequestQueue requestQueue;
     private List<MagicItem> magicalItemList;
+    private List<MagicItem> basketItemList = new ArrayList<>();
 
     //IP address changed to match local unit IP address.
     private String ApiUrl = "http://192.168.0.151:8989/Item";
@@ -72,9 +74,9 @@ public class MainActivity extends AppCompatActivity
 //                "Bomarang Daggar",
 //                "This nifty little bladed weapon can be used as a dual sided dagger or throws, upon which it will fly out 50ft and then return to it's user in an elyptical arch.",
 //                "images/BD-TW.png"));
-
         getListItems();
         setAdapterToItemList();
+
         ImageView viewBasketBtn = findViewById(R.id.basket_iconbtn);
         viewBasketBtn.setOnClickListener(view ->
         {
@@ -112,6 +114,51 @@ public class MainActivity extends AppCompatActivity
         request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy. DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(request);
+    }
+
+    public void addItemToBasket(MagicItem magicItem)
+    {
+        if (magicItem.getItemAmount() > 0)
+        {
+            magicItem.setItemAmount(magicItem.getItemAmount() - 1);
+
+            boolean itemInBasket = false;
+            for (MagicItem item : basketItemList)
+            {
+                if (item.getItemName().equals(magicItem.getItemName()))
+                {
+                    item.setItemAmount(item.getItemAmount() + 1);
+                    itemInBasket = true;
+                    break;
+                }
+            }
+
+            if (!itemInBasket)
+            {
+                MagicItem basketItem = new MagicItem(
+                        magicItem.getItemId(),
+                        1,
+                        magicItem.getItemCost(),
+                        magicItem.getItemName(),
+                        magicItem.getItemDesc(),
+                        magicItem.getItemImg()
+                );
+                basketItemList.add(basketItem);
+            }
+
+            setAdapterToItemList();
+
+            Toast.makeText(this,
+                    magicItem + "Added To Basket",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        else
+        {
+            Toast.makeText(this,
+                    magicItem + "Isn't In Stock",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     void setAdapterToItemList()

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seseshop.InfoActivity;
+import com.example.seseshop.MainActivity;
 import com.example.seseshop.R;
 import com.example.seseshop.models.MagicItem;
 
@@ -43,16 +44,16 @@ public class MagicalItemWaresAdapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos)
     {
-        MagicItem magicalItem = magicalItemList.get(pos);
-        holder.itemNameView.setText(magicalItem.getItemName());
-        holder.itemAmountView.setText(magicalItem.getItemAmount() + " pcs.");
-        holder.itemCostView.setText(String.format("%.2f", magicalItem.getItemCost()) + " Gp.");
+        MagicItem magicItem = magicalItemList.get(pos);
+        holder.itemNameView.setText(magicItem.getItemName());
+        holder.itemAmountView.setText(magicItem.getItemAmount() + " pcs.");
+        holder.itemCostView.setText(String.format("%.2f", magicItem.getItemCost()) + " Gp.");
 
-        if(magicalItem.getItemImg() != null && !magicalItem.getItemImg().isEmpty())
+        if(magicItem.getItemImg() != null && !magicItem.getItemImg().isEmpty())
         {
             //TODO. NOT DEPRICATED! Eventually find alternative to getIdentifier()
             int imgResId = context.getResources().getIdentifier(
-                    magicalItem.getItemImg(), "drawable", context.getPackageName());
+                    magicItem.getItemImg(), "drawable", context.getPackageName());
 
             if (imgResId != 0)
             {
@@ -71,17 +72,20 @@ public class MagicalItemWaresAdapter
         holder.itemNameView.setOnClickListener(view ->
         {
             Intent intent = new Intent(context, InfoActivity.class);
-            intent.putExtra("ITEM_NAME", magicalItem.getItemName());
-            intent.putExtra("ITEM_AMOUNT", magicalItem.getItemAmount());
-            intent.putExtra("ITEM_COST", magicalItem.getItemCost());
-            intent.putExtra("ITEM_DESC", magicalItem.getItemDesc());
+            intent.putExtra("ITEM_NAME", magicItem.getItemName());
+            intent.putExtra("ITEM_AMOUNT", magicItem.getItemAmount());
+            intent.putExtra("ITEM_COST", magicItem.getItemCost());
+            intent.putExtra("ITEM_DESC", magicItem.getItemDesc());
             context.startActivity(intent);
         });
 
         holder.addItemBtn.setOnClickListener(view ->
-                Toast.makeText(context,
-                        magicalItem + "Added To Basket",
-                        Toast.LENGTH_SHORT).show());
+                {
+                    if (context instanceof MainActivity)
+                    {
+                        ((MainActivity) context).addItemToBasket(magicItem);
+                    }
+                });
     }
 
     @Override
