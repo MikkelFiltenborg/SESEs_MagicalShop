@@ -28,6 +28,8 @@ public class BasketActivity extends AppCompatActivity
     private BasketAdapter basketAdapter;
     private TextView basketTotalCost;
     private List<MagicItem> basketItemList;
+    private List<MagicItem> waresItemList;
+    private ImageView removeBtn;
     private Button checkoutBtn;
 
     @Override
@@ -43,9 +45,9 @@ public class BasketActivity extends AppCompatActivity
             return insets;
         });
 
-
         ImageView bgImage = findViewById(R.id.basket_bg_img);
         basketTotalCost = findViewById(R.id.basket_total_cost);
+        removeBtn = findViewById(R.id.basket_magical_item_list_remove_btn);
         checkoutBtn = findViewById(R.id.basket_checkout_btn);
 
         Glide.with(this)
@@ -84,6 +86,24 @@ public class BasketActivity extends AppCompatActivity
             finish();
         });
     }
+
+//    private void removeItemHandler(MagicItem magicItem, int position)
+//    {
+//        basketItemList.remove(position);
+//        basketAdapter.notifyItemRemoved(position);
+//        basketAdapter.notifyItemRangeChanged(position, basketItemList.size());
+//
+//        for (MagicItem waresItem: waresItemList)
+//        {
+//            if (waresItem.getItemName().equals(magicItem.getItemName()))
+//            {
+//                int newAmount = waresItem.getItemAmount() + magicItem.getItemAmount();
+//                waresItem.setItemAmount(newAmount);
+//                break;
+//            }
+//        }
+//        updateTotalCost();
+//    }
 
     public void updateTotalCost()
     {

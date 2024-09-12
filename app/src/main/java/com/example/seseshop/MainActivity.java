@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity
     private WaresAdapter waresAdapter;
     private RequestQueue requestQueue;
     private List<MagicItem> magicalItemList;
+    private List<MagicItem> waresItemList;
     private List<MagicItem> basketItemList = new ArrayList<>();
 
     //IP address changed to match local unit IP address.
-    private String ApiUrl = "http://192.168.0.151:8989/Item";
+    private String ApiUrl = "http://192.168.0.78:8989/Item";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

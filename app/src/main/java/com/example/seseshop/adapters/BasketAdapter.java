@@ -88,7 +88,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
 //        subtract_item_amount_btn
         holder.subtractItemBtn.setOnClickListener(view ->
         {
-            //Impliment function here.
+            //TODO Impliment function here.
         });
 
         holder.removeBtn.setOnClickListener(view ->
@@ -109,10 +109,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     }
 
     @Override
-    public int getItemCount()
-    {
-        return basketItemList.size();
-    }
+    public int getItemCount() {return basketItemList.size();}
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
