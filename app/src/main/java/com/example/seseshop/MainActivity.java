@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.seseshop.adapters.WaresAdapter;
 import com.example.seseshop.models.MagicItem;
 import com.google.gson.Gson;
@@ -32,6 +33,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
+    private RecyclerView recyclerView;
+    private WaresAdapter waresAdapter;
     private RequestQueue requestQueue;
     private List<MagicItem> magicalItemList;
     private List<MagicItem> basketItemList = new ArrayList<>();
@@ -52,34 +55,22 @@ public class MainActivity extends AppCompatActivity
             return insets;
         });
 
+        ImageView bgImage = findViewById(R.id.main_bg_img);
+        Glide.with(this)
+                .load("https://cdn.discordapp.com/attachments/326698456339185664/1281641054113763409/Snessks.png?ex=66e3b4ff&is=66e2637f&hm=a0ec4343b96ea024593526d3357c246043a691865e18cdf4bc4f9db9c8f0c711&")
+                .into(bgImage);
+
         requestQueue = Volley.newRequestQueue(this);
 
         magicalItemList = new ArrayList<>();
-//        magicalItemList.add(new MagicItem(
-//                1,
-//                1,
-//                3872.00,
-//                "The Wizards Bane",
-//                "A mythical greatsword, forged from Adamantium and imbued with a powerful field of anti magic that surrounds its wielder.",
-//                "images/TWB-LS.png"));
-//        magicalItemList.add(new MagicItem(2,
-//                6,
-//                285.25,
-//                "Bag of Holding",
-//                "A special bad that looks like a shoulder satchel, decirated with a face. The bag is capable of storing multiple items, despite it's small size",
-//                "images/BoH-EQ.png"));
-//        magicalItemList.add(new MagicItem(3,
-//                2,
-//                762.50,
-//                "Bomarang Daggar",
-//                "This nifty little bladed weapon can be used as a dual sided dagger or throws, upon which it will fly out 50ft and then return to it's user in an elyptical arch.",
-//                "images/BD-TW.png"));
+
         getListItems();
         setAdapterToItemList();
 
-        ImageView viewBasketBtn = findViewById(R.id.basket_iconbtn);
-        viewBasketBtn.setOnClickListener(view ->
+        ImageView basketBtn = findViewById(R.id.main_basket_icon_btn);
+        basketBtn.setOnClickListener(view ->
         {
+            Data.basketList = this.basketItemList;
             Intent intent = new Intent(MainActivity.this, BasketActivity.class);
             startActivity(intent);
         });
@@ -111,7 +102,9 @@ public class MainActivity extends AppCompatActivity
                 });
 
         final int TIMEOUT_MS = 10000;
-        request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy. DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy. DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(request);
     }
@@ -149,23 +142,28 @@ public class MainActivity extends AppCompatActivity
             setAdapterToItemList();
 
             Toast.makeText(this,
-                    magicItem + "Added To Basket",
+                    magicItem.getItemName() + " Added To Basket",
                     Toast.LENGTH_SHORT).show();
         }
 
         else
         {
             Toast.makeText(this,
-                    magicItem + "Isn't In Stock",
+                    magicItem.getItemName() + " Isn't In Stock",
                     Toast.LENGTH_SHORT).show();
         }
     }
 
     void setAdapterToItemList()
     {
-        RecyclerView recyclerView = findViewById(R.id.item_list_view);
-        WaresAdapter listAdapter = new WaresAdapter(this, magicalItemList);
+        recyclerView = findViewById(R.id.item_list_view);
+        waresAdapter = new WaresAdapter(this, magicalItemList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(listAdapter);
+        recyclerView.setAdapter(waresAdapter);
+    }
+
+    public int getAvailableItemAmount(MagicItem magicItem)
+    {
+        return magicItem.getItemAmount();
     }
 }

@@ -43,9 +43,9 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos)
     {
         MagicItem magicItem = magicalItemList.get(pos);
-        holder.itemNameView.setText(magicItem.getItemName());
-        holder.itemAmountView.setText(magicItem.getItemAmount() + " pcs.");
-        holder.itemCostView.setText(String.format("%.2f", magicItem.getItemCost()) + " Gp.");
+        holder.waresItemNameView.setText(magicItem.getItemName());
+        holder.waresItemAmountView.setText(magicItem.getItemAmount() + " pcs.");
+        holder.waresItemCostView.setText(String.format("%.2f", magicItem.getItemCost()) + " Gp.");
 
         if(magicItem.getItemImg() != null && !magicItem.getItemImg().isEmpty())
         {
@@ -55,19 +55,19 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
 
             if (imgResId != 0)
             {
-                holder.itemImgView.setImageResource(imgResId);
+                holder.waresItemImgView.setImageResource(imgResId);
             }
             else
             {
-                holder.itemImgView.setImageResource(R.drawable.placeholder_img);
+                holder.waresItemImgView.setImageResource(R.drawable.placeholder_img);
             }
         }
         else
         {
-            holder.itemImgView.setImageResource(R.drawable.placeholder_img);
+            holder.waresItemImgView.setImageResource(R.drawable.placeholder_img);
         }
 
-        holder.itemNameView.setOnClickListener(view ->
+        holder.waresItemNameView.setOnClickListener(view ->
         {
             Intent intent = new Intent(context, InfoActivity.class);
             intent.putExtra("ITEM_NAME", magicItem.getItemName());
@@ -94,19 +94,19 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
-        public ImageView itemImgView;
-        public TextView itemNameView;
-        public TextView itemAmountView;
-        public TextView itemCostView;
+        public ImageView waresItemImgView;
+        public TextView waresItemNameView;
+        public TextView waresItemAmountView;
+        public TextView waresItemCostView;
         public Button addItemBtn;
 
         public ViewHolder(View magicalItemView)
         {
             super(magicalItemView);
-            itemImgView = magicalItemView.findViewById(R.id.wares_magical_item_img);
-            itemNameView = magicalItemView.findViewById(R.id.wares_magical_item_name_textbtn);
-            itemAmountView = magicalItemView.findViewById(R.id.wares_magical_item_amount_text);
-            itemCostView = magicalItemView.findViewById(R.id.wares_magical_item_price_text);
+            waresItemImgView = magicalItemView.findViewById(R.id.wares_magical_item_img);
+            waresItemNameView = magicalItemView.findViewById(R.id.wares_magical_item_name_textbtn);
+            waresItemAmountView = magicalItemView.findViewById(R.id.wares_magical_item_amount_text);
+            waresItemCostView = magicalItemView.findViewById(R.id.wares_magical_item_price_text);
             addItemBtn = magicalItemView.findViewById(R.id.wares_magical_item_list_add_btn);
         }
     }

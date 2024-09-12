@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seseshop.BasketActivity;
 import com.example.seseshop.InfoActivity;
+import com.example.seseshop.MainActivity;
 import com.example.seseshop.R;
 import com.example.seseshop.models.MagicItem;
 
@@ -42,13 +45,50 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos)
     {
         MagicItem basketItem = basketItemList.get(pos);
-        holder.basketItemTextView.setText(
-                basketItem.getItemName() + " - " + basketItem.getItemAmount() + " pcs.");
 
-        holder.basketItemTextView.setOnClickListener(view ->
+        holder.basketItemNameText.setText(basketItem.getItemName());
+        holder.basketItemAmountText.setText(String.valueOf(basketItem.getItemAmount()) + " pcs.");
+        holder.basketItemCostText.setText(String.format("%.2f", basketItem.getItemCost()) + " Gp.");
+
+        holder.basketItemNameText.setOnClickListener(view ->
         {
             Intent intent = new Intent(context, InfoActivity.class);
+            intent.putExtra("ITEM_NAME", basketItem.getItemName());
+            intent.putExtra("ITEM_AMOUNT", basketItem.getItemAmount());
+            intent.putExtra("ITEM_COST", basketItem.getItemCost());
+            intent.putExtra("ITEM_DESC", basketItem.getItemDesc());
             context.startActivity(intent);
+        });
+
+        holder.addItemBtn.setOnClickListener(view ->
+        {
+            int currentAmount = basketItem.getItemAmount();
+            int availableAmount = ((MainActivity) context).getAvailableItemAmount(basketItem);
+
+            if (currentAmount < availableAmount)
+            {
+                int newAmount = currentAmount + 1;
+                basketItem.setItemAmount(newAmount);
+                notifyItemChanged(pos);
+            }
+
+            else
+            {
+                Toast.makeText(context,
+                        "There isn't any more " + basketItem.getItemName(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            if (context instanceof MainActivity)
+            {
+                ((MainActivity) context).addItemToBasket(basketItem);
+            }
+        });
+
+//        subtract_item_amount_btn
+        holder.subtractItemBtn.setOnClickListener(view ->
+        {
+            //Impliment function here.
         });
 
         holder.removeBtn.setOnClickListener(view ->
@@ -56,9 +96,15 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
             basketItemList.remove(pos);
             notifyItemRemoved(pos);
             notifyItemRangeChanged(pos, basketItemList.size());
+
             Toast.makeText(context,
-                    basketItem + "Removed From Basket",
+                    basketItem.getItemName() + "Removed From Basket",
                     Toast.LENGTH_SHORT).show();
+
+            if (context instanceof BasketActivity)
+            {
+                ((BasketActivity) context).updateTotalCost();
+            }
         });
     }
 
@@ -70,14 +116,23 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView basketItemTextView;
-        public Button removeBtn;
+        public TextView
+                basketItemNameText,
+                basketItemAmountText,
+                basketItemCostText;
+        public ImageView addItemBtn;
+        public ImageView subtractItemBtn;
+        public ImageView removeBtn;
 
-        public ViewHolder(View magicalItemView)
+        public ViewHolder(View magicItemView)
         {
-            super(magicalItemView);
-            basketItemTextView = magicalItemView.findViewById(R.id.basket_magical_item_name_textbtn);
-            removeBtn = magicalItemView.findViewById(R.id.basket_magical_item_list_remove_btn);
+            super(magicItemView);
+            basketItemNameText = magicItemView.findViewById(R.id.basket_magical_item_name_textbtn);
+            basketItemAmountText = magicItemView.findViewById(R.id.basket_magical_item_amount_text);
+            basketItemCostText = magicItemView.findViewById(R.id.basket_magical_item_cost_text);
+            addItemBtn = magicItemView.findViewById(R.id.basket_add_item_amount_btn);
+            subtractItemBtn = magicItemView.findViewById(R.id.basket_subtract_item_amount_btn);
+            removeBtn = magicItemView.findViewById(R.id.basket_magical_item_list_remove_btn);
         }
     }
 }

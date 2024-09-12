@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/basket"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@mipmap/sese_shop_basket_background_foreground"
-    tools:context=".BasketActivity">
+    android:layout_height="match_parent">
 
-<!--    Header-->
+    <!-- Background Image -->
+    <ImageView
+        android:id="@+id/basket_bg_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
+    <!-- Header -->
     <LinearLayout
         android:id="@+id/basket_layout__1"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/menu_header_txt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="Your Basssket Of Magicalss"
@@ -32,13 +40,14 @@
             />
     </LinearLayout>
 
-<!--    List of items in basket-->
+    <!-- List of Items in Basket -->
     <LinearLayout
         android:id="@+id/basket_layout_2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="12"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/basket_layout__1"
+        android:layout_marginTop="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/basket_item_view"
@@ -51,23 +60,45 @@
             />
     </LinearLayout>
 
-<!--    Checkout button-->
+    <!-- Checkout Button -->
     <LinearLayout
         android:id="@+id/basket_layout_3"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/basket_total_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Total Price"
+            android:background="#80FFFFFF"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="20dp"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="casual"
+            android:layout_gravity="center_vertical"
+            />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             />
 
         <Button
-            android:id="@+id/magical_item_checkout_btn"
-            android:layout_width="wrap_content"
+            android:id="@+id/basket_checkout_btn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:backgroundTint="#50A"
             android:layout_marginEnd="40dp"
             android:fontFamily="casual"
@@ -78,4 +109,4 @@
             android:layout_gravity="center_vertical"
             />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

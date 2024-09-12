@@ -1,6 +1,8 @@
 package com.example.seseshop.models;
 
-public class MagicItem
+import java.io.Serializable;
+
+public class MagicItem implements Serializable
 {
     private int itemId;
     private int itemAmount;

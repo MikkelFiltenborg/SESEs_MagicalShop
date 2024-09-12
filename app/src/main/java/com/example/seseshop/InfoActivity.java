@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+
 public class InfoActivity extends AppCompatActivity
 {
     private TextView itemNameView;
@@ -30,6 +32,11 @@ public class InfoActivity extends AppCompatActivity
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        ImageView bgImage = findViewById(R.id.info_bg_img);
+        Glide.with(this)
+                .load("https://cdn.discordapp.com/attachments/326698456339185664/1281641055388962827/sese_shop_info.png?ex=66e3b4ff&is=66e2637f&hm=bb19f359da4a90318916be6de0481f3abf6d2f79607c92dfcd56862c4377af68&")
+                .into(bgImage);
 
         itemNameView = findViewById(R.id.menu_header_txt);
         itemImgView = findViewById(R.id.info_image);
