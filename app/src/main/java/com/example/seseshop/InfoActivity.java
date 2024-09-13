@@ -33,9 +33,10 @@ public class InfoActivity extends AppCompatActivity
             return insets;
         });
 
+//        Sets ImageView to display image fetches from URL
         ImageView bgImage = findViewById(R.id.info_bg_img);
         Glide.with(this)
-                .load("https://cdn.discordapp.com/attachments/326698456339185664/1281641055388962827/sese_shop_info.png?ex=66e3b4ff&is=66e2637f&hm=bb19f359da4a90318916be6de0481f3abf6d2f79607c92dfcd56862c4377af68&")
+                .load("https://cdn.discordapp.com/attachments/971514286029553735/1284082508132122624/sese_shop_info.png?ex=66e55687&is=66e40507&hm=f91d64c8947849be41742fb3feed02b0bc91774255b5bfb254b670b9f2fe329d&")
                 .into(bgImage);
 
         itemNameView = findViewById(R.id.menu_header_txt);
@@ -43,16 +44,20 @@ public class InfoActivity extends AppCompatActivity
         itemDescView = findViewById(R.id.info_layout_3).findViewById(R.id.info_desc_text);
         addBtn = findViewById(R.id.wares_magical_item_info_add_btn);
 
+//        Set reference to UI elements in layout
         Intent intent = getIntent();
         String itemName = intent.getStringExtra("ITEM_NAME");
         String itemImgPath = intent.getStringExtra("ITEM_IMG_PATH");
         String itemDesc = intent.getStringExtra("ITEM_DESC");
 
+//        Ensures TextView for item name is the name of the item
         if (itemName != null)
         {
             itemNameView.setText(itemName);
         }
 
+//        Load image based on dynamic resource-path
+        //TODO Change to use Glide for item images
         if(itemImgPath != null && !itemImgPath.isEmpty())
         {
             //TODO. NOT DEPRICATED! find alternative to getIdentifier()
@@ -65,11 +70,13 @@ public class InfoActivity extends AppCompatActivity
             itemImgView.setImageResource(R.drawable.placeholder_img);
         }
 
+//        Ensures TextView for description is the description of the item
         if (itemDesc != null)
         {
             itemDescView.setText(itemDesc);
         }
 
+//        Adds item to basket from info page
         addBtn.setOnClickListener(view ->
         {
             //TODO Add function to add chosen item from wares list to basket list.

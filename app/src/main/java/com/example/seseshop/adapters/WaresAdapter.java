@@ -30,10 +30,12 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
         this.magicalItemList = magicalItemList;
     }
 
+    //    Inflates layout for items
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
+//        Inflates layout for each item
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.wares_item_list, parent, false);
         return new ViewHolder(view);
@@ -47,6 +49,7 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
         holder.waresItemAmountView.setText(magicItem.getItemAmount() + " pcs.");
         holder.waresItemCostView.setText(String.format("%.2f", magicItem.getItemCost()) + " Gp.");
 
+//        Sets image in ImageView dynamically
         if(magicItem.getItemImg() != null && !magicItem.getItemImg().isEmpty())
         {
             //TODO. NOT DEPRICATED! Eventually find alternative to getIdentifier()
@@ -67,6 +70,7 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
             holder.waresItemImgView.setImageResource(R.drawable.placeholder_img);
         }
 
+//        Info
         holder.waresItemNameView.setOnClickListener(view ->
         {
             Intent intent = new Intent(context, InfoActivity.class);
@@ -77,21 +81,24 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
             context.startActivity(intent);
         });
 
+//        Adds item to basket list
         holder.addItemBtn.setOnClickListener(view ->
-                {
-                    if (context instanceof MainActivity)
-                    {
-                        ((MainActivity) context).addItemToBasket(magicItem);
-                    }
-                });
+        {
+            if (context instanceof MainActivity)
+            {
+                ((MainActivity) context).addItemToBasket(magicItem);
+            }
+        });
     }
 
+    //    Returns number of items supposed to be displayed in list
     @Override
     public int getItemCount()
     {
         return magicalItemList.size();
     }
 
+    //    Holds references to views for the layout of items
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
         public ImageView waresItemImgView;
@@ -100,6 +107,7 @@ public class WaresAdapter extends RecyclerView.Adapter<WaresAdapter.ViewHolder>
         public TextView waresItemCostView;
         public Button addItemBtn;
 
+        //        Constructor to create a new item view
         public ViewHolder(View magicalItemView)
         {
             super(magicalItemView);

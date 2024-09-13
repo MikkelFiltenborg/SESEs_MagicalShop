@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,12 +37,12 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private WaresAdapter waresAdapter;
     private RequestQueue requestQueue;
+    private TextView waresTotalAmount;
     private List<MagicItem> magicalItemList;
-//    private List<MagicItem> waresItemList;
     private List<MagicItem> basketItemList = new ArrayList<>();
 
     //IP address changed to match local unit IP address.
-    private String ApiUrl = "http://192.168.0.78:8989/Item";
+    private String ApiUrl = "http://192.168.0.151:8989/Item";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,18 +57,19 @@ public class MainActivity extends AppCompatActivity
             return insets;
         });
 
+//        Sets ImageView to display image fetches from URL
         ImageView bgImage = findViewById(R.id.main_bg_img);
         Glide.with(this)
-                .load("https://cdn.discordapp.com/attachments/326698456339185664/1281641054113763409/Snessks.png?ex=66e3b4ff&is=66e2637f&hm=a0ec4343b96ea024593526d3357c246043a691865e18cdf4bc4f9db9c8f0c711&")
+                .load("https://cdn.discordapp.com/attachments/971514286029553735/1284082403954130944/Snessks.png?ex=66e5566e&is=66e404ee&hm=04e3572b9f3553dd4ecc8f21ea7d9df0fd51c40d0ee3ba5089684006d4fa1d30&")
                 .into(bgImage);
 
         requestQueue = Volley.newRequestQueue(this);
 
         magicalItemList = new ArrayList<>();
-
         getListItems();
         setAdapterToItemList();
 
+//        Update shares holder Data.basketList with items added, then navigates user to basket
         ImageView basketBtn = findViewById(R.id.main_basket_icon_btn);
         basketBtn.setOnClickListener(view ->
         {
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity
                 ApiUrl,
                 new Response.Listener<String>()
                 {
+                    //                    Successful response from network
                     @Override
                     public void onResponse(String response)
                     {
@@ -91,10 +94,12 @@ public class MainActivity extends AppCompatActivity
                         List<MagicItem> magicItems = new Gson().fromJson(response, listType);
                         magicalItemList = magicItems;
                         setAdapterToItemList();
+//                        updateItemAmount();
                     }
                 },
                 new Response.ErrorListener()
                 {
+                    //                    Error response from network
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
@@ -102,6 +107,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
+//        Retry policy for network request timeout error
         final int TIMEOUT_MS = 10000;
         request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -112,10 +118,12 @@ public class MainActivity extends AppCompatActivity
 
     public void addItemToBasket(MagicItem magicItem)
     {
+//        Check item availability on amount
         if (magicItem.getItemAmount() > 0)
         {
             magicItem.setItemAmount(magicItem.getItemAmount() - 1);
 
+//            Update basket if item already exists in basket list
             boolean itemInBasket = false;
             for (MagicItem item : basketItemList)
             {
@@ -127,6 +135,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
+//            Add item to basket if it doesn't already exist in basket
             if (!itemInBasket)
             {
                 MagicItem basketItem = new MagicItem(
@@ -163,8 +172,14 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(waresAdapter);
     }
 
-    public int getAvailableItemAmount(MagicItem magicItem)
+    //    TODO Use to update amount of items available in item list in main UI
+    public void updateItemAmount()
     {
-        return magicItem.getItemAmount();
+        int totalAmount = 0;
+        for (MagicItem magicItem : magicalItemList)
+        {
+            totalAmount += magicItem.getItemAmount();
+        }
+        waresTotalAmount.setText(String.valueOf(totalAmount) + " pcs.");
     }
 }

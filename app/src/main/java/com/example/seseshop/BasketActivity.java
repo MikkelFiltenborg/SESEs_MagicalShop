@@ -28,8 +28,6 @@ public class BasketActivity extends AppCompatActivity
     private BasketAdapter basketAdapter;
     private TextView basketTotalCost;
     private List<MagicItem> basketItemList;
-    private List<MagicItem> waresItemList;
-    private ImageView removeBtn;
     private Button checkoutBtn;
 
     @Override
@@ -45,16 +43,14 @@ public class BasketActivity extends AppCompatActivity
             return insets;
         });
 
+//        Sets ImageView to display image fetches from URL
         ImageView bgImage = findViewById(R.id.basket_bg_img);
-        basketTotalCost = findViewById(R.id.basket_total_cost);
-        removeBtn = findViewById(R.id.basket_magical_item_list_remove_btn);
-        checkoutBtn = findViewById(R.id.basket_checkout_btn);
-
         Glide.with(this)
                 .load("https://cdn.discordapp.com/attachments/971514286029553735/1283750917513941002/image.png?ex=66e421b5&is=66e2d035&hm=edb3452e2ec327e3e9249c3ff62d7e9329e453cf2ff82bd580452dff397c6d9f&")
                 .into(bgImage);
 
-
+        basketTotalCost = findViewById(R.id.basket_total_cost);
+        checkoutBtn = findViewById(R.id.basket_checkout_btn);
         recyclerView = findViewById(R.id.basket_item_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -65,11 +61,13 @@ public class BasketActivity extends AppCompatActivity
             basketItemList = new ArrayList<>();
         }
 
+//        Initialize basket adapter
         basketAdapter = new BasketAdapter(this, basketItemList);
         recyclerView.setAdapter(basketAdapter);
 
         updateTotalCost();
 
+//        Handle checkout, update cost to 0.00 Gp., return user to main page
         checkoutBtn.setOnClickListener(view ->
         {
             basketItemList.clear();
@@ -87,30 +85,16 @@ public class BasketActivity extends AppCompatActivity
         });
     }
 
-//    private void removeItemHandler(MagicItem magicItem, int position)
-//    {
-//        basketItemList.remove(position);
-//        basketAdapter.notifyItemRemoved(position);
-//        basketAdapter.notifyItemRangeChanged(position, basketItemList.size());
-//
-//        for (MagicItem waresItem: waresItemList)
-//        {
-//            if (waresItem.getItemName().equals(magicItem.getItemName()))
-//            {
-//                int newAmount = waresItem.getItemAmount() + magicItem.getItemAmount();
-//                waresItem.setItemAmount(newAmount);
-//                break;
-//            }
-//        }
-//        updateTotalCost();
-//    }
-
+    //    Count total cost of items in basket
     public void updateTotalCost()
     {
-        double totalCost = 0.00;
+        double
+                totalCost = 0.00,
+                itemAmountCost = 0.00;
         for (MagicItem magicItem : basketItemList)
         {
-            totalCost += magicItem.getItemCost();
+            itemAmountCost += magicItem.getItemCost() * magicItem.getItemAmount();
+            totalCost += itemAmountCost;
         }
         basketTotalCost.setText(String.format("%.2f", totalCost) + " Gp.");
     }

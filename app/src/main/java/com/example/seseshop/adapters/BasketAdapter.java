@@ -32,10 +32,12 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         this.basketItemList = basketItemList;
     }
 
+    //    Inflates layout for items
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
+//        Inflates layout for each item
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.basket_item_list, parent, false);
         return new ViewHolder(view);
@@ -46,10 +48,12 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     {
         MagicItem basketItem = basketItemList.get(pos);
 
+        //TODO Add image to item via Glide
         holder.basketItemNameText.setText(basketItem.getItemName());
         holder.basketItemAmountText.setText(String.valueOf(basketItem.getItemAmount()) + " pcs.");
         holder.basketItemCostText.setText(String.format("%.2f", basketItem.getItemCost()) + " Gp.");
 
+//        Info
         holder.basketItemNameText.setOnClickListener(view ->
         {
             Intent intent = new Intent(context, InfoActivity.class);
@@ -60,37 +64,63 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
             context.startActivity(intent);
         });
 
+//        Adds 1 to an items amount in the basket list
         holder.addItemBtn.setOnClickListener(view ->
         {
             int currentAmount = basketItem.getItemAmount();
-            int availableAmount = ((MainActivity) context).getAvailableItemAmount(basketItem);
+            //TODO find other way to get available amount and fix over-counting
+//            int availableAmount = ((BasketActivity) context).getAvailableItemAmount(basketItem);
+//            if (currentAmount < availableAmount)
+//            {
+            int newAddAmount = currentAmount + 1;
+            basketItem.setItemAmount(newAddAmount);
+            notifyItemChanged(pos);
 
-            if (currentAmount < availableAmount)
+
+
+            Toast.makeText(context,
+                    basketItem.getItemName() + " Has Been Added",
+                    Toast.LENGTH_SHORT).show();
+//            }
+
+//            else
+//            {
+//                Toast.makeText(context,
+//                        "There Isn't Any More " + basketItem.getItemName(),
+//                        Toast.LENGTH_SHORT).show();
+//            }
+            if (context instanceof BasketActivity)
             {
-                int newAmount = currentAmount + 1;
-                basketItem.setItemAmount(newAmount);
+                ((BasketActivity) context).updateTotalCost();
+            }
+        });
+
+//        Subtracts 1 from the amount on an item in the basket list
+        holder.subtractItemBtn.setOnClickListener(view ->
+        {
+            int currentAmount = basketItem.getItemAmount();
+            if (currentAmount > 1)
+            {
+                int newSubAmount = currentAmount - 1;
+                basketItem.setItemAmount(newSubAmount);
                 notifyItemChanged(pos);
             }
 
             else
             {
                 Toast.makeText(context,
-                        "There isn't any more " + basketItem.getItemName(),
+                        "You Can't Buy Less Than 1 " +
+                                basketItem.getItemName(),
                         Toast.LENGTH_SHORT).show();
             }
 
-            if (context instanceof MainActivity)
+            if (context instanceof BasketActivity)
             {
-                ((MainActivity) context).addItemToBasket(basketItem);
+                ((BasketActivity) context).updateTotalCost();
             }
         });
 
-//        subtract_item_amount_btn
-        holder.subtractItemBtn.setOnClickListener(view ->
-        {
-            //TODO Impliment function here.
-        });
-
+//        Removed 1 entire item from the basket list
         holder.removeBtn.setOnClickListener(view ->
         {
             basketItemList.remove(pos);
@@ -98,7 +128,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
             notifyItemRangeChanged(pos, basketItemList.size());
 
             Toast.makeText(context,
-                    basketItem.getItemName() + "Removed From Basket",
+                    basketItem.getItemName() + " Removed From Basket",
                     Toast.LENGTH_SHORT).show();
 
             if (context instanceof BasketActivity)
@@ -108,19 +138,22 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         });
     }
 
+    //    Returns number of items supposed to be displayed in list
     @Override
     public int getItemCount() {return basketItemList.size();}
 
+    //    Holds references to views for the layout of items
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
         public TextView
                 basketItemNameText,
                 basketItemAmountText,
                 basketItemCostText;
-        public ImageView addItemBtn;
-        public ImageView subtractItemBtn;
-        public ImageView removeBtn;
+        public ImageView addItemBtn,
+                subtractItemBtn,
+                removeBtn;
 
+        //        Constructor to create a new item view
         public ViewHolder(View magicItemView)
         {
             super(magicItemView);
@@ -131,5 +164,11 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
             subtractItemBtn = magicItemView.findViewById(R.id.basket_subtract_item_amount_btn);
             removeBtn = magicItemView.findViewById(R.id.basket_magical_item_list_remove_btn);
         }
+    }
+
+    //    To be used with adding higher amount to items in basket.
+    public int getAvailableItemAmount(MagicItem basketItem)
+    {
+        return basketItem.getItemAmount();
     }
 }
